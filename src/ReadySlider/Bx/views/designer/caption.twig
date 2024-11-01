@@ -1,0 +1,40 @@
+{% set v = slider.settings.attribute('_veditor_').attribute('bx-caption') %}
+
+<div class="rs-veditor-group">
+    <label>{{ environment.translate('Text align') }}</label>
+    <select
+        name="[_veditor_][bx-caption][text_align]"
+        class="rs-veditor-input"
+        data-selector=".bx-caption"
+        data-prop="text-align"
+    >
+        <option value="left">{{ environment.translate('Align left') }}</option>
+        <option value="center">{{ environment.translate('Align center') }}</option>
+        <option value="right">{{ environment.translate('Align right') }}</option>
+    </select>
+</div>
+
+<div class="rs-veditor-group">
+    <label>{{ environment.translate('Text color') }}</label>
+    <input
+        name="[_veditor_][bx-caption][color]"
+        data-selector=".bx-caption"
+        data-prop="color"
+        type="text"
+        class="rs-veditor-input rs-veditor-colorpicker"
+        value="{{ v.color }}"
+     />
+</div>
+
+
+<div class="rs-veditor-group">
+    <label>{{ environment.translate('Background color') }}</label>
+    <input
+        name="[_veditor_][bx-caption][background_color]"
+        data-selector=".bx-caption"
+        data-prop="background-color"
+        type="text"
+        class="rs-veditor-input rs-veditor-colorpicker"
+        value="{{ v.background_color }}"
+     />
+</div>

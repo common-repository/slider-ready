@@ -1,0 +1,218 @@
+{% extends '@slider/view.twig' %}
+
+{% block buttons %}
+    {% import '@slider/macro/tabs.twig' as tabs %}
+
+    {{ tabs.button(environment.translate('General'), 'general') }}
+    {{ tabs.button(environment.translate('Touch'), 'touch') }}
+    {{ tabs.button(environment.translate('Pager'), 'pager') }}
+
+{% endblock %}
+
+{% block form %}
+        <tr data-tab="general" id="general">
+            <th scope="row">
+                <label for="generalMode">
+                    {{ environment.translate('Mode') }}
+                </label>
+            </th>
+            <td>
+                <select name="general[mode]" id="generalMode">
+                    {% for value in ['horizontal', 'vertical', 'fade'] %}
+                        <option value="{{ value }}" {% if slider.settings.general.mode == value %}selected="selected"{% endif %}>{{ value|title }}</option>
+                    {% endfor %}
+                </select>
+                <p class="description">
+                    {{ environment.translate('Type of transition between slides.') }}
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">
+                <label for="generalCaptions">
+                    {{ environment.translate('Captions') }}
+                </label>
+            </th>
+            <td>
+                {% for value in ['true', 'false'] %}
+                    <label for="generalCaptions{{ value|capitalize }}">
+                        <input type="radio" name="general[captions]"
+                               id="generalCaptions{{ value|capitalize }}"
+                               value="{{ value }}"
+                               {% if slider.settings.general.captions == value %}
+                                   checked="checked"
+                               {% endif %}/>
+                        <span>
+                            {{ environment.translate(value|replace({ 'true': 'Yes', 'false': 'No' })) }}
+                        </span>
+                        <br/>
+                    </label>
+                {% endfor %}
+                <p class="description">
+                    {{ environment.translate('Include image captions.') }}
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">
+                <label for="generalSpeed">
+                    {{ environment.translate('Speed') }}
+                </label>
+            </th>
+            <td>
+                <input type="number" name="general[speed]" id="generalSpeed" value="{{ slider.settings.general.speed|default(500) }}" class="regular-text" />
+                <p class="description">
+                    {{ environment.translate('Slide transition duration (in ms).') }}
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">
+                <label for="generalSlideMargin">
+                    {{ environment.translate('Margin') }}
+                </label>
+            </th>
+            <td>
+                <input id="generalSlideMargin" class="regular-text" type="text" value="{{ slider.settings.general.slideMargin|default(0) }}" name="general[slideMargin]"/>
+                <p class="description">
+                    {{ environment.translate('Margin between each slide.') }}
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">
+                <label for="generalRandomStart">
+                    {{ environment.translate('Starting slide') }}
+                </label>
+            </th>
+            <td>
+                <fieldset>
+                    <label for="generalRandomStart">
+                        <input type="checkbox" name="general[randomStart]" id="generalRandomStart" {% if slider.settings.general.randomStart is defined %}checked="checked"{% endif %}/>
+                        {{ environment.translate('Start slider on a random slide') }}
+                    </label>
+                </fieldset>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">
+                <label for="generalEasing">
+                    {{ environment.translate('Easing') }}
+                </label>
+            </th>
+            <td>
+                <select name="general[easing]" id="generalEasing">
+                    {% for value in ['linear', 'ease', 'ease-in', 'ease-out', 'ease-in-out'] %}
+                        <option id="easing-{{ value }}" value="{{ value }}" {% if slider.settings.general.easing == value %}selected="selected"{% endif %}>
+                            {{ value|title }}
+                        </option>
+                    {% endfor %}
+                </select>
+                <p class="description">
+                    {{ environment.translate('The type of "easing" to use during transitions.') }}
+                </p>
+            </td>
+        </tr>
+        <tr data-tab="touch" id="touch">
+            <th scope="row">
+                <label for="touchEnabled">
+                    {{ environment.translate('Enable touch') }}
+                </label>
+            </th>
+            <td>
+                <label>
+                    <input type="radio" name="touch[enabled]" value="true" {% if slider.settings.touch.enabled|default('true') == 'true' %}checked="checked"{% endif %}/>
+                    <span>
+                        {{ environment.translate('Yes') }}
+                    </span>
+                </label>&nbsp;
+                <label>
+                    <input type="radio" name="touch[enabled]" value="false" {% if slider.settings.touch.enabled|default('true') == 'false' %}checked="checked"{% endif %}/>
+                    <span>
+                        {{ environment.translate('No') }}
+                    </span>
+                </label>
+                <p class="description">
+                    {{ environment.translate('If <code>Yes</code>, slider will allow touch swipe transitions')|raw }}
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">
+                <label for="touchOneToOneTouch">
+                    {{ environment.translate('One-to-One touch') }}
+                </label>
+            </th>
+            <td>
+                <label>
+                    <input type="radio" name="touch[oneToOne]" value="true" {% if slider.settings.touch.oneToOne|default('true') == 'true' %}checked="checked"{% endif %}/>
+                    <span>
+                        {{ environment.translate('Yes') }}
+                    </span>
+                </label>&nbsp;
+                <label>
+                    <input type="radio" name="touch[oneToOne]" value="false" {% if slider.settings.touch.oneToOne|default('true') == 'false' %}checked="checked"{% endif %}/>
+                    <span>
+                        {{ environment.translate('No') }}
+                    </span>
+                </label>
+                <p class="description">
+                    {{ environment.translate('If <code>Yes</code>, non-fade slides follow the finger as it swipes')|raw }}
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">
+                <label for="touchSwipeThreshold">
+                    {{ environment.translate('Swipe threshold') }}
+                </label>
+            </th>
+            <td>
+                <input class="regular-text" type="number" name="touch[swipeThreshold]" id="touchSwipeThreshold" value="{{ slider.settings.touch.swipeThreshold|default(50) }}"/>
+                <p class="description">
+                    {{ environment.translate('Amount of pixels a touch swipe needs to exceed in order to execute a slide transition') }}
+                </p>
+            </td>
+        </tr>
+        <tr data-tab="pager" id="pager">
+            <th scope="row">
+                <label for="pagerEnabled">
+                    {{ environment.translate('Enable pager') }}
+                </label>
+            </th>
+            <td>
+                <label>
+                    <input type="radio" name="pager[enabled]" value="true" {% if slider.settings.pager.enabled|default('false') == 'true' %}checked="checked"{% endif %}/>
+                    <span>
+                        {{ environment.translate('Yes') }}
+                    </span>
+                </label>&nbsp;
+                <label>
+                    <input type="radio" name="pager[enabled]" value="false" {% if slider.settings.pager.enabled|default('false') == 'false' %}checked="checked"{% endif %}/>
+                    <span>
+                        {{ environment.translate('No') }}
+                    </span>
+                </label>
+                <p class="description">
+                    {{ environment.translate('If <code>Yes</code>, a pager will be added')|raw }}
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">
+                <label for="pagerType">
+                    {{ environment.translate('Type') }}
+                </label>
+            </th>
+            <td>
+                <select name="pager[pagerType]" id="pagerType">
+                    {% for value in ['full', 'short'] %}
+                        <option value="{{ value }}" {% if slider.settings.pager.pagerType == value %}selected="selected"{% endif %}>{{ value|title }}</option>
+                    {% endfor %}
+                </select>
+                <p class="description">
+                    {{ environment.translate('If <code>Full</code>, a pager link will be generated for each slide. If <code>Short</code>, a x / y pager will be used (ex. 1 / 5)')|raw }}
+                </p>
+            </td>
+        </tr>
+{% endblock %}

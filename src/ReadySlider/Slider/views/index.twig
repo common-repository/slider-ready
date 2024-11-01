@@ -1,0 +1,115 @@
+{% extends 'base.twig' %}
+
+{% macro renderSlider(slider) %}
+    <div class="gg-item gg-slider" id="slider-{{ slider.id }}">
+        <div class="image">
+            <img src="http://placehold.it/350x150&text={{ slider.title }}" alt="{{ slider.title }}" title="{{ slider.title }}" width="350" height="150"/>
+            <ul class="gg-control-btn">
+                <li>
+                    <a href="{{ environment.generateUrl('slider', 'view', { 'id': slider.id }) }}" class="button">
+                        {{ environment.translate('Images and Properties') }}
+                    </a>
+                </li>
+                <li>
+                    <button class="button" disabled="disabled">
+                        {{ environment.translate('Preview') }}
+                    </button>
+                </li>
+            </ul>
+        </div>
+        <div class="gg-counter" title="{{ environment.translate('There are %s photos in the slider "%s"')|format(slider.images|length|default(0), slider.title|title) }}">
+            <i class="fa fa-picture-o"></i>
+            {{ slider.images|length|default(0) }}
+
+            {% if environment.isPro() %}
+                <i class="fa fa-video-camera"></i>
+                {{ slider.videos|length|default(0) }}
+            {% endif %}
+        </div>
+        <p>
+            <span style="float: left;">{{ slider.title }}</span>
+            <a class="delete-gallery" title="Delete this slider" style="color: #e74c3c; float: right;" href="{{ environment.generateUrl('slider', 'delete', { 'id': slider.id }) }}">
+                <i class="fa fa-trash-o"></i>
+            </a>
+        </p>
+    </div>
+{% endmacro %}
+
+{% block toolbar %}
+    {% import 'macro/toolbar.twig' as toolbar %}
+
+    <!-- Template: {{ environment.getModule('slider').getLocation() }}/views/index.twig -->
+    {{ toolbar.primary('add-slider', environment.translate('New Slider'), { 'icon': 'plus' }) }}
+    <!-- End of Template: {{ environment.getModule('slider').getLocation() }}/views/index.twig -->
+{% endblock %}
+
+{% block breadcrumbs %}
+    {% import 'macro/breadcrumbs.twig' as breadcrumbs %}
+
+    {{ parent() }}
+
+    <!-- Template: {{ environment.getModule('slider').getLocation() }}/views/index.twig -->
+    {{ breadcrumbs.item(environment.generateUrl('slider'), environment.translate('Sliders')) }}
+    <!-- End of Template: {{ environment.getModule('slider').getLocation() }}/views/index.twig -->
+{% endblock %}
+
+{% block content %}
+
+    {% import _self as self %}
+
+    <!-- Template: {{ environment.getModule('slider').getLocation() }}/views/index.twig -->
+    <section class="gg-galleries">
+        <div class="gg-galleries-grid">
+            {% for slider in sliders %}
+                {{ self.renderSlider(slider) }}
+            {% else %}
+                <h2 class="header-muted">You haven't any sliders yet</h2>
+            {% endfor %}
+        </div>
+    </section>
+
+    <div id="newSliderDialog" title="{{ environment.translate('New slider') }}" data-width="550" data-auto-open="false">
+        <form id="newSliderDialogForm">
+            <table class="form-table">
+                <thead>
+                <tr>
+                    <th scope="row">
+                        <label for="sliderNameInput">
+                            {{ environment.translate('Slider title') }}
+                        </label>
+                    </th>
+                    <td>
+                        <input id="sliderNameInput" type="text" name="title" style="width:100%"/>
+                    </td>
+                </tr>
+                {% if available is defined and available is iterable and available|length > 1 %}
+                <tr>
+                    <th scope="row">
+                        <label for="sliderPlugin">
+                            {{ environment.translate('Select module') }}
+                        </label>
+                    </th>
+                    <td>
+                        {% for plugin in available %}
+                            <label for="plugin-{{ plugin.getModuleName() }}">
+                                <input type="radio" name="plugin"
+                                       id="plugin-{{ plugin.getModuleName() }}"
+                                       {% if loop.first %}checked="checked"{% endif %}
+                                       value="{{ plugin.getModuleName() }}"/>
+                                <span>{{ plugin.getSliderName() }}</span>
+                            </label><br/>
+                        {% endfor %}
+                    </td>
+                </tr>
+                {% else %}
+                    <input name="plugin" value="{{ environment.getConfig().get('default_slider') }}" type="hidden"/>
+                {% endif %}
+                </thead>
+            </table>
+            <input name="action" value="ready-slider" type="hidden"/>
+            <input name="route[module]" value="slider" type="hidden"/>
+            <input name="route[action]" value="create" type="hidden"/>
+        </form>
+    </div>
+    <!-- End of Template: {{ environment.getModule('slider').getLocation() }}/views/index.twig -->
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends '@slider/view.twig' %}
+
+{% block toolbar %}
+    <!-- Template: {{ environment.getModule('slider').getLocation() }}/views/add.twig -->
+    {% import 'macro/toolbar.twig' as toolbar %}
+
+    {{ toolbar.primary('import', 'Import', { 'icon': 'upload' }) }}
+    {{ toolbar.icon('select-all', 'check') }}
+    <!-- End of Template: {{ environment.getModule('slider').getLocation() }}/views/add.twig -->
+{% endblock %}
+
+{% block breadcrumbs %}
+    <!-- Template: {{ environment.getModule('slider').getLocation() }}/views/add.twig -->
+    {% import 'macro/breadcrumbs.twig' as breadcrumbs %}
+
+    {{ parent() }}
+    {{ breadcrumbs.item(environment.generateUrl('slider', 'add', { 'id': slider.id }), environment.translate('Import')) }}
+    <!-- End of Template: {{ environment.getModule('slider').getLocation() }}/views/add.twig -->
+{% endblock %}
+
+{% block content %}
+    <!-- Template: {{ environment.getModule('slider').getLocation() }}/views/add.twig -->
+    {% import '@ui/type.twig' as view_type %}
+    {{ view_type.list_view(entities) }}
+    <!-- End of Template: {{ environment.getModule('slider').getLocation() }}/views/add.twig -->
+{% endblock %}

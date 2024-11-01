@@ -1,0 +1,87 @@
+{# 'Rename Folder' dialog #}
+
+<div id="renameFolderDialog" title="{{ environment.translate('Rename folder') }}">
+    <form id="renameFolderForm" accept-charset="utf-8" data-prevent-submit>
+        <fieldset>
+            <label for="folderName">{{ environment.translate('Folder name:') }}</label>
+            <input type="text" id="folderName" value="" name="folder_name" style="width: 100%;" required />
+        </fieldset>
+    </form>
+</div>
+
+{# Choose Gallery dialog #}
+
+<div id="selectGalleryDialog" title="{{ environment.translate('Add images to the slider') }}">
+    <div id="galleryLoading">
+        <p>{{ environment.translate('Please wait while the plugin to get the list of sliders...') }}</p>
+        <p class="gg-centered">
+            <div class="gg-inline-loader gg-centered">&nbsp;</div>
+        </p>
+    </div>
+
+    <form id="galleryForm" accept-charset="UTF-8" style="display: none;" data-prevent-submit>
+        <fieldset>
+            <label for="galleryList">
+                {{ environment.translate('Select slider:') }}
+            </label><br/>
+            <select name="gallery_list" id="galleryList" style="width: 100%;"></select>
+        </fieldset>
+    </form>
+</div>
+
+{# Create folder dialog #}
+
+<div id="newFolderDialog" title="{{ environment.translate('New folder') }}">
+    <form id="createFolderForm" accept-charset="utf-8" data-prevent-submit>
+        <fieldset>
+            <label for="folder-name">{{ environment.translate('Folder name:') }}</label>
+            <input type="text" id="folder-name" value="" name="folder_name" style="width: 100%;"/>
+        </fieldset>
+    </form>
+</div>
+
+<div id="uploadVideoModal" title="{{ environment.translate('Import video') }}" style="display: none;">
+    <form id="uploadVideoForm">
+        <table class="form-table">
+            <thead>
+            <tr>
+                <th scope="row">
+                    <label for="videoUrl">
+                        {{ environment.translate('Video URL:') }}
+                    </label>
+                </th>
+                <td>
+                    <input class="regular-text" type="text" name="url"
+                           id="videoUrl"/>
+                    <p class="description">
+                        {{ environment.translate('Supported platforms: %s.')|format(['Youtube', 'Vimeo']|join(', ')) }}
+                    </p>
+                    <p id="uploadVideoFormError" class="description" style="color:red;"></p>
+                </td>
+            </tr>
+            </thead>
+        </table>
+        <input value="ready-slider" name="action" type="hidden"/>
+        <input value="photos" name="route[module]" type="hidden"/>
+        <input value="importVideo" name="route[action]" type="hidden"/>
+    </form>
+</div>
+
+{#New gallery#}
+
+<div id="newGalleryDialog" title="{{ environment.translate('Add images to the new slider') }}">
+    <form id="newGalleryForm" accept-charset="utf-8" data-prevent-submit>
+        <fieldset>
+            <label for="galleryTitle">{{ environment.translate('Slider title:') }}</label>
+            <input style="width:100%" type="text" name="gallery_title" id="galleryTitle"/>
+        </fieldset>
+    </form>
+</div>
+
+<div id="provideodialog" title="Available in PRO" style="display:none;">
+    <p>This feature available only in PRO version.</p>
+    <p>
+        <a href="http://readyshoppingcart.com/product/wordpress-slider-plugin/" target="_blank">Get PRO</a> version on
+        <a href="http://readyshoppingcart.com/product/wordpress-slider-plugin/" target="_blank">ReadyShoppingCart.com</a>
+    </p>
+</div>

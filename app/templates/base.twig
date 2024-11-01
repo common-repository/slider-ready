@@ -1,0 +1,72 @@
+<div class="wrap">
+    <div class="ready-plugin">
+        <header class="ready-plugin">
+            <h1>Ready! Slider</h1>
+        </header>
+        <section class="ready-content">
+            <nav class="ready-navigation">
+                <ul>
+                    <li>
+                        <a id="btn-add-new" href="{{ environment.getConfig().get('admin_url') }}admin.php?page=ready-slider-new">
+                            <i class="fa fa-plus-circle"></i>
+                            {{ environment.translate('New Slider') }}
+                        </a>
+                    </li>
+                    <li {% if request.query.module == 'slider' or request.query.module is null %}class="active"{% endif %}>
+                        <a href="{{ environment.generateUrl('slider') }}">
+                            <i class="fa fa-archive"></i>
+                            {{ environment.translate('Sliders') }}
+                        </a>
+                    </li>
+                    <li {% if request.query.module == 'photos' %}class="active"{% endif %}>
+                        <a href="{{ environment.generateUrl('photos') }}">
+                            <i class="fa fa-picture-o"></i>
+                            {{ environment.translate('Images') }}
+                        </a>
+                    </li>
+                    <li  {% if request.query.module == 'settings' %}class="active"{% endif %}>
+                        <a href="{{ environment.generateUrl('settings') }}">
+                            <i class="fa fa-gear"></i>
+                            {{ environment.translate('Settings') }}
+                        </a>
+                    </li>
+                    {% if environment.isPro() == false %}
+                        <li class="ready-pro">
+                            <a href="{{ environment.getConfig().get('pro_url') }}">
+                                <i class="fa fa-unlock"></i>
+                                {{ environment.translate('Get PRO') }}
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+            <div class="ready-container">
+                {% block toolbar_wrap %}
+                <section class="ready-bar" id="all-galleries-toolbar">
+                    <ul class="ready-bar-controls">
+                        {% block toolbar %}{% endblock %}
+                    </ul>
+                </section>
+                {% endblock %}
+                <nav id="gg-breadcrumbs" class="gg-breadcrumbs">
+                    {% block breadcrumbs %}
+                        <a href="{{ environment.generateUrl(environment.getConfig().get('default_module')) }}">
+                            {{ environment.translate('Ready! Slider') }}
+                        </a>
+                    {% endblock %}
+                </nav>
+                {% block content %}{% endblock %}
+                <div class="clear"></div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Modal loading overlay -->
+    <div class="gg-modal-loading-overlay"></div>
+    <div class="gg-modal-loading-object">
+        <p>
+            <span id="loading-text">Loading</span>
+            <img src="{{ environment.config.get('admin_url') ~ '/images/wpspin_light.gif' }}" alt="" title="{{ environment.translate('Loading') }}"/>
+        </p>
+    </div>
+</div>

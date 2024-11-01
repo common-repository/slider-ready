@@ -1,0 +1,18 @@
+<div class="rs-veditor-group">
+    <label>Border style:</label>
+    <select name="[_veditor_][border_style]" class="rs-veditor-input" data-selector=".bx-viewport" data-prop="border-style">
+        <option value="none" {% if slider.settings.attribute('_veditor_').border_style == 'none' %}selected="selected"{% endif %}>None</option>
+        <option value="solid" {% if slider.settings.attribute('_veditor_').border_style == 'solid' %}selected="selected"{% endif %}>Solid</option>
+        <option value="dashed" {% if slider.settings.attribute('_veditor_').border_style == 'dashed' %}selected="selected"{% endif %}>Dashed</option>
+    </select>
+</div>
+
+<div class="rs-veditor-group">
+    <label>Border width:</label>
+    <input name="[_veditor_][border_width]" data-selector=".bx-viewport" data-prop="border-width" type="text" class="rs-veditor-input" value="{{ slider.settings.attribute('_veditor_').border_width }}" />
+</div>
+
+<div class="rs-veditor-group">
+    <label>Border color:</label>
+    <input name="[_veditor_][border_color]" data-selector=".bx-viewport" data-prop="border-color" type="text" class="rs-veditor-input rs-veditor-colorpicker" value="{{ slider.settings.attribute('_veditor_').border_color }}"/>
+</div>
